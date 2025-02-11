@@ -1,6 +1,6 @@
 # eshop
 
-Advanced Programming 2023/2024 Tutorial. Fadhlurohman Dzaki - 2306202132
+Advanced Programming Genap 2024/2025 Tutorial. Fadhlurohman Dzaki - 2306202132
 
 ## Tutorial 1
 
