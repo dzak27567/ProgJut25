@@ -55,7 +55,7 @@ tasks.register<Test>("functionalTest"){
     description = "Runs functional tests."
     group = "verification"
 
-    filter{
+    filter {
         includeTestsMatching("*FunctionalTest")
     }
 }
