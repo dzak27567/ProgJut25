@@ -11,6 +11,11 @@
 <div class="container my-4">
     <h3>Edit Product</h3>
 
+    <!-- Tampilkan pesan error jika ada -->
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form th:action="@{/product/edit/{id}(id=${product.productId})}" th:object="${product}" method="post">
         <div class="form-group">
             <label for="nameInput">Name</label>
