@@ -68,6 +68,71 @@ class ProductRepositoryTest {
         assertFalse(productIterator.hasNext());
     }
 
+    @Test
+    void testEditProductSuccess() {
+        // Setup: Create product and add to repository
+        Product product = new Product();
+        product.setProductId("test-id-1");
+        product.setProductName("Original Name");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        // Action: Update the product
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Updated Name");
+        updatedProduct.setProductQuantity(20);
+        productRepository.update("test-id-1", updatedProduct);
+
+        // Assertion: Check if the product is updated
+        Product result = productRepository.findById("test-id-1");
+        assertNotNull(result);
+        assertEquals("Updated Name", result.getProductName());
+        assertEquals(20, result.getProductQuantity());
+    }
+
+    @Test
+    void testEditProductNotFound() {
+        // Setup: Create product but don't add to repository
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Updated Name");
+        updatedProduct.setProductQuantity(20);
+
+        // Action: Try to update a non-existent product
+        productRepository.update("non-existent-id", updatedProduct);
+
+        // Assertion: Check that nothing is updated
+        Product result = productRepository.findById("non-existent-id");
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteProductSuccess() {
+        // Setup: Create product and add to repository
+        Product product = new Product();
+        product.setProductId("test-id-2");
+        product.setProductName("To be deleted");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+
+        // Action: Delete the product
+        productRepository.delete("test-id-2");
+
+        // Assertion: Verify product is deleted
+        Product result = productRepository.findById("test-id-2");
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteProductNotFound() {
+        // Action: Try to delete a non-existent product
+        productRepository.delete("non-existent-id");
+
+        // Assertion: Check that no exception occurs and nothing changes
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertFalse(productIterator.hasNext()); // Ensure repository is still empty
+    }
+
+
 }
 
 
