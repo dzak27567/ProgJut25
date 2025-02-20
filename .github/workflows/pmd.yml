@@ -1,0 +1,27 @@
+name: PMD Code Analysis
+
+on:
+  push:
+    branches:
+      - '**'  # Jalankan di semua branch setiap ada push
+
+jobs:
+  pmd-analysis:
+    name: Run PMD Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  # Bisa juga menggunakan 'zulu' atau 'adopt'
+          java-version: '21'
+
+      - name: Run PMD Code Analysis
+        uses: pmd/pmd-github-action@v1
+        with:
+          rulesets: 'category/java/bestpractices.xml,category/java/codestyle.xml'
+          version: '7.0.0-rc4'
