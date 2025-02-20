@@ -3,7 +3,7 @@ name: PMD Code Analysis
 on:
   push:
     branches:
-      - '**'  # Jalankan di semua branch setiap ada push
+      - module-2-exercise
 
 jobs:
   pmd-analysis:
