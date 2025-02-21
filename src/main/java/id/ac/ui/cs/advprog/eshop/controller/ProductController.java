@@ -87,7 +87,7 @@ public class ProductController {
             product.setProductId(id);  // Tambahkan ini
             model.addAttribute("errorMessage", errorMessage);
             model.addAttribute("product", product);
-            return "editProduct";
+            return "EditProduct";
         }
 
         service.update(id, product);
