@@ -26,3 +26,26 @@ Untuk meningkatkan kualitas kode dan memastikan prinsip clean code diterapkan de
 
 
 2. Menurut saya, **cleanliness** dari kode pada functional test suite yang baru akan berkurang karena program tersebut melakukan task yang sama persis dengan program sebelumnya, sehingga menyebabkan **ketidakefisienan**. Hal ini melanggar prinsip **DRY (Don't Repeat Yourself)** dan dapat menyebabkan **duplikasi kode** yang meningkatkan risiko inkonsistensi dan bug saat ada perubahan. Selain itu, kode yang duplikatif juga lebih sulit dipelihara dan dibaca, karena pengembang harus memahami perbedaan antara dua test yang tampak serupa. Untuk mengatasi masalah ini, sebaiknya kita melakukan **refactoring** dengan mengekstrak bagian kode yang sama ke dalam metode atau kelas terpisah yang dapat digunakan kembali.
+
+
+
+## Tutorial 2
+
+### Reflection
+>You have implemented a CI/CD process that automatically runs the test suites, analyzes code quality, and deploys to a PaaS. Try to answer the following questions in order to reflect on your attempt completing the tutorial and exercise.
+>1.List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
+>2.Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+
+1. Adapun code quality issue yang saya perbaiki adalah mengurangi penggunaan import yang tidak terpakai. Sebelumnya, saya menggunakan import org.springframework.web.bind.annotation.*, yang secara implisit mengimpor semua kelas dalam paket tersebut. Namun, praktik ini dapat menyebabkan kode menjadi kurang eksplisit dan meningkatkan kemungkinan konflik nama di masa mendatang.
+Sebagai solusinya, saya mengganti wildcard import tersebut dengan hanya mengimpor kelas-kelas yang benar-benar digunakan, seperti import org.springframework.web.bind.annotation.PostMapping;. Dengan pendekatan ini, kode menjadi lebih bersih, lebih mudah dipahami, serta mempermudah proses debugging dan maintanence di kemudian hari.
+2. Saya merasa implementasi kode saya sudah sesuai dengan prinsip Continuous Integration dan Continuous Deployment. Setiap kali ada perubahan kode yang di-push, workflow otomatis akan menjalankan pengujian dan memeriksa apakah ada masalah dalam kode. Ini membantu saya memastikan bahwa aplikasi tetap berjalan dengan baik, bahkan setelah fitur baru ditambahkan ke branch utama. Selain itu, sistem deployment yang saya gunakan, yaitu Koyeb, secara otomatis melakukan redeploy setiap kali ada perubahan di branch utama. Dengan begitu, saya bisa yakin bahwa versi yang terdeploy selalu yang terbaru, dan proses integrasi serta deployment berjalan dengan lancar.
+
+
+
+
+
+
+
+
+
+
