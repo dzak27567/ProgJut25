@@ -131,6 +131,77 @@ class ProductRepositoryTest {
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext()); // Ensure repository is still empty
     }
+
+    @Test
+    void testCreateWithGeneratedId() {
+        Product product = new Product();
+        product.setProductName("Test Product");
+        product.setProductQuantity(10);
+        // productId tidak di-set
+
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertFalse(createdProduct.getProductId().isEmpty());
+    }
+
+    @Test
+    void testCreateWithEmptyProductId() {
+        Product product = new Product();
+        product.setProductName("Test Product");
+        product.setProductQuantity(10);
+        product.setProductId(""); // ID kosong
+
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertFalse(createdProduct.getProductId().isEmpty());
+    }
+
+    @Test
+    void testCreateWithWhitespaceProductId() {
+        Product product = new Product();
+        product.setProductName("Test Product");
+        product.setProductQuantity(10);
+        product.setProductId("   "); // ID whitespace
+
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertFalse(createdProduct.getProductId().isEmpty());
+        assertNotEquals("   ", createdProduct.getProductId());
+    }
+
+    @Test
+    void testUpdateProductInMiddleOfList() {
+        // Tambahkan beberapa produk
+        Product product1 = new Product();
+        product1.setProductId("id1");
+        productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductId("id2");
+        productRepository.create(product2);
+
+        Product product3 = new Product();
+        product3.setProductId("id3");
+        productRepository.create(product3);
+
+        // Update product2
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Updated Product");
+        updatedProduct.setProductQuantity(99);
+        productRepository.update("id2", updatedProduct);
+
+        // Verifikasi update
+        Product result = productRepository.findById("id2");
+        assertEquals("Updated Product", result.getProductName());
+        assertEquals(99, result.getProductQuantity());
+
+        // Verifikasi produk lain tidak berubah
+        assertEquals(product1.getProductName(), productRepository.findById("id1").getProductName());
+        assertEquals(product3.getProductName(), productRepository.findById("id3").getProductName());
+    }
 }
 
 
