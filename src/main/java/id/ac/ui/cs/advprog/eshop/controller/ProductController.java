@@ -24,7 +24,7 @@ public class ProductController {
     public String createProductPage(Model model){
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -44,7 +44,7 @@ public class ProductController {
         if (errorMessage != null) {
             model.addAttribute("errorMessage", errorMessage);
             model.addAttribute("product", product);
-            return "createProduct";
+            return "CreateProduct";
         }
 
         // Jika tidak ada error, lanjutkan ke create product
@@ -66,7 +66,7 @@ public class ProductController {
             return "redirect:/product/list"; // Redirect jika product tidak ditemukan
         }
         model.addAttribute("product", product);
-        return "editProduct"; // Pastikan sama dengan nama file editProduct.html
+        return "EditProduct"; // Pastikan sama dengan nama file editProduct.html
     }
 
 
