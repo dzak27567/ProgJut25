@@ -9,4 +9,5 @@ public interface ProductService {
     public Product findById(String id);
     public void update(String id, Product product);
     public void delete(String id);
+    public String validateProduct(Product product); // New method for validation
 }

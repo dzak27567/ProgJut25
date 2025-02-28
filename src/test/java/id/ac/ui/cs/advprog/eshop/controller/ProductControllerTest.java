@@ -49,6 +49,9 @@ class ProductControllerTest {
         product.setProductName("Laptop");
         product.setProductQuantity(5);
 
+        // Mock valid product (validateProduct returns null when validation passes)
+        when(productService.validateProduct(any(Product.class))).thenReturn(null);
+
         mockMvc.perform(post("/product/create")
                         .flashAttr("product", product))
                 .andExpect(status().is3xxRedirection())
@@ -63,11 +66,18 @@ class ProductControllerTest {
         product.setProductName("");
         product.setProductQuantity(0);
 
+        // Setup mock to return error message for invalid product
+        when(productService.validateProduct(any(Product.class))).thenReturn("Product name cannot be empty");
+
         mockMvc.perform(post("/product/create")
                         .flashAttr("product", product))
                 .andExpect(status().isOk())
                 .andExpect(view().name("CreateProduct"))
                 .andExpect(model().attributeExists("errorMessage"));
+
+        // Verify validate was called but create was not
+        verify(productService, times(1)).validateProduct(any(Product.class));
+        verify(productService, never()).create(any(Product.class));
     }
 
     @Test
@@ -108,6 +118,9 @@ class ProductControllerTest {
         product.setProductName("Laptop");
         product.setProductQuantity(5);
 
+        // Mock valid product (validateProduct returns null when validation passes)
+        when(productService.validateProduct(any(Product.class))).thenReturn(null);
+
         mockMvc.perform(post("/product/edit/1")
                         .flashAttr("product", product))
                 .andExpect(status().is3xxRedirection())
@@ -122,11 +135,18 @@ class ProductControllerTest {
         product.setProductName("");
         product.setProductQuantity(0);
 
+        // Setup mock to return error message for invalid product
+        when(productService.validateProduct(any(Product.class))).thenReturn("Product name cannot be empty");
+
         mockMvc.perform(post("/product/edit/1")
                         .flashAttr("product", product))
                 .andExpect(status().isOk())
                 .andExpect(view().name("EditProduct"))
                 .andExpect(model().attributeExists("errorMessage"));
+
+        // Verify validate was called but update was not
+        verify(productService, times(1)).validateProduct(any(Product.class));
+        verify(productService, never()).update(anyString(), any(Product.class));
     }
 
     @Test
