@@ -40,9 +40,23 @@ Untuk meningkatkan kualitas kode dan memastikan prinsip clean code diterapkan de
 Sebagai solusinya, saya mengganti wildcard import tersebut dengan hanya mengimpor kelas-kelas yang benar-benar digunakan, seperti import org.springframework.web.bind.annotation.PostMapping;. Dengan pendekatan ini, kode menjadi lebih bersih, lebih mudah dipahami, serta mempermudah proses debugging dan maintanence di kemudian hari.
 2. Saya merasa implementasi kode saya sudah sesuai dengan prinsip Continuous Integration dan Continuous Deployment. Setiap kali ada perubahan kode yang di-push, workflow otomatis akan menjalankan pengujian dan memeriksa apakah ada masalah dalam kode. Ini membantu saya memastikan bahwa aplikasi tetap berjalan dengan baik, bahkan setelah fitur baru ditambahkan ke branch utama. Selain itu, sistem deployment yang saya gunakan, yaitu Koyeb, secara otomatis melakukan redeploy setiap kali ada perubahan di branch utama. Dengan begitu, saya bisa yakin bahwa versi yang terdeploy selalu yang terbaru, dan proses integrasi serta deployment berjalan dengan lancar.
 
+## Tutorial 3
 
+### Reflection
+>Apply the SOLID principles you have learned. You are allowed to modify the source code according to the principles you want to implement. Please answer the following questions:
+>1) Explain what principles you apply to your project!
+>2) Explain the advantages of applying SOLID principles to your project with examples.
+>3) Explain the disadvantages of not applying SOLID principles to your project with examples.
 
+1. Berikut prinsip SOLID yang belum saya terapkan dalam kode dan sudah saya implementasikan:
 
+   * SRP (Single Responsibility Principle): Saya memisahkan validasi logic dari controller ke service dan menghindari membuat CarController extend ProductController. Hal ini memastikan bahwa setiap kelas hanya memiliki satu tanggung jawab.
+   * OCP (Open/Closed Principle): Saya memastikan bahwa classes dan function yang saya buat dapat di-extend atau ditambahkan implementasinya, tanpa harus mengubah code base yang sudah ada, seperti penggunaan interface ProductService sebagai basis dalam pembuatan ProductServiceImpl.
+   * DIP (Dependency Inversion Principle): Saya membuat class IdGenerator untuk dipakai di repository, sehingga repository tidak lagi bergantung pada implementasi konkret pembuatan ID (UUID), tapi pada abstraksi yang lebih tinggi.
+
+2. Penerapan SOLID pada proyek e-shop membuat kode menjadi lebih mudah dikelola. Pemisahan validasi dari controller ke service meningkatkan maintainability. Penggunaan interface seperti ProductService memungkinkan penambahan implementasi baru tanpa mengubah kode lama. Dependency injection untuk IdGenerator mempermudah unit testing dengan memungkinkan mocking. Interface yang fokus seperti IdGenerator membuat kode lebih mudah dipahami. Secara keseluruhan, hal ini membuat pengembangan fitur baru menjadi lebih cepat dan tanpa merusak fungsionalitas yang sudah ada.
+
+3. Tanpa SOLID, kode akan sulit dimodifikasi dan diuji. Repository dengan UUID hardcoded sulit diuji karena tidak bisa di-mock. Duplikasi validasi di controller dan service menyebabkan inkonsistensi saat ada perubahan. CarController yang extend ProductController menciptakan ketergantungan tinggi. Repository dengan berbagai tanggung jawab (CRUD, generasi ID, validasi) menjadi kelas besar yang sulit dipelihara. Dampaknya, pengembangan fitur baru memakan waktu lama dan berisiko menimbulkan bug.
 
 
 
