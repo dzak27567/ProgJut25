@@ -70,8 +70,42 @@ class ProductServiceImplTest {
     void testUpdate() {
         String productId = "123";
         Product product = new Product();
-        doNothing().when(productRepository).update(productId, product);
+        Product updatedProduct = new Product();
+
+        // Menggunakan when-thenReturn karena implementasi update mengembalikan Product
+        when(productRepository.update(productId, product)).thenReturn(updatedProduct);
+
         productService.update(productId, product);
         verify(productRepository, times(1)).update(productId, product);
+    }
+
+    @Test
+    void testValidateProductValid() {
+        Product product = new Product();
+        product.setProductName("Valid Product");
+        product.setProductQuantity(10);
+
+        String result = productService.validateProduct(product);
+        assertNull(result, "Validation should pass and return null");
+    }
+
+    @Test
+    void testValidateProductInvalidName() {
+        Product product = new Product();
+        product.setProductName(""); // Empty name
+        product.setProductQuantity(10);
+
+        String result = productService.validateProduct(product);
+        assertEquals("Product name cannot be empty", result);
+    }
+
+    @Test
+    void testValidateProductInvalidQuantity() {
+        Product product = new Product();
+        product.setProductName("Valid Product");
+        product.setProductQuantity(0); // Invalid quantity
+
+        String result = productService.validateProduct(product);
+        assertEquals("Quantity must be greater than 0", result);
     }
 }
