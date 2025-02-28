@@ -16,7 +16,10 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car create(Car car) {
-        // TODO Auto-generated method stub
+        String validationError = validateCar(car);
+        if (validationError != null) {
+            throw new IllegalArgumentException(validationError);
+        }
         carRepository.create(car);
         return car;
     }
@@ -28,6 +31,7 @@ public class CarServiceImpl implements CarService {
         carIterator.forEachRemaining(allCar::add);
         return allCar;
     }
+
     @Override
     public Car findById(String carId) {
         Car car = carRepository.findById(carId);
@@ -36,14 +40,29 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(String carId, Car car) {
-        // TODO Auto-generated method stub
+        String validationError = validateCar(car);
+        if (validationError != null) {
+            throw new IllegalArgumentException(validationError);
+        }
         carRepository.update(carId, car);
     }
 
     @Override
     public void deleteCarById(String carId) {
-        // TODO Auto-generated method stub
         carRepository.delete(carId);
     }
 
+    @Override
+    public String validateCar(Car car) {
+        if (car.getCarName() == null || car.getCarName().trim().isEmpty()) {
+            return "Car name cannot be empty";
+        }
+        if (car.getCarQuantity() <= 0) {
+            return "Quantity must be greater than 0";
+        }
+        if (car.getCarColor() == null || car.getCarColor().trim().isEmpty()) {
+            return "Car color cannot be empty";
+        }
+        return null; // Return null if validation passes
+    }
 }

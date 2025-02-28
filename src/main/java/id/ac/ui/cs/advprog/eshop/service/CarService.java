@@ -9,4 +9,5 @@ public interface CarService {
     Car findById(String carId);
     void update(String carId, Car car);
     void deleteCarById(String carId);
+    String validateCar(Car car);
 }
